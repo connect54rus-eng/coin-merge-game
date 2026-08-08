@@ -1,1 +1,1 @@
-# coin-merge-game
+# index
