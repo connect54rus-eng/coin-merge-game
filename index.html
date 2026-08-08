@@ -41,21 +41,21 @@ body{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align
 .mbtn:active{transform:scale(.96)}
 .mbtn-p{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;box-shadow:0 4px 16px rgba(245,158,11,.4)}
 .mbtn-p:active{background:#b45309}
-.mbtn-s{margin-top:10px;background:rgba(255,255,255,.65);color:#78350f;border:1px solid rgba(217,119,6,.18);box-shadow:0 2px 8px rgba(0,0,0,.04)}
-.mbtn-s:active{background:rgba(255,255,255,.85)}
-.menu-b{font-size:.8rem;color:#a8a29e;margin-top:28px}
+.mbtn-s{margin-top:10px;background:#fff;color:#78350f;border:4px solid #d97706;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.mbtn-s:active{background:#fef3c7;border-color:#b45309}
+.menu-b{font-size:1rem;font-weight:700;color:#78350f;margin-top:28px;background:rgba(255,255,255,.55);border:1px solid rgba(217,119,6,.15);border-radius:12px;padding:8px 18px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
 
 /* Game Over — menu button */
 .mbtn-sm{width:180px;padding:10px 0;font-size:.9rem;margin-top:8px;border-radius:12px}
 
 /* Top-50 Screen — compact centered card, same size as game */
 .top{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:20;background:linear-gradient(135deg,#fef3c7,#fde68a 50%,#fcd34d)}
-.top-c{width:100%;max-width:320px;height:calc(100dvh - 160px);max-height:560px;display:flex;flex-direction:column;border-radius:14px;overflow:hidden;box-shadow:inset 0 0 0 3px rgba(139,115,85,.3),0 8px 32px rgba(139,115,85,.2),0 2px 8px rgba(0,0,0,.1);background:linear-gradient(180deg,#FFF8F0,#FFF0E0)}
+.top-c{width:100%;max-width:320px;display:flex;flex-direction:column;border-radius:14px;overflow:hidden;box-shadow:inset 0 0 0 3px rgba(139,115,85,.3),0 8px 32px rgba(139,115,85,.2),0 2px 8px rgba(0,0,0,.1);background:linear-gradient(180deg,#FFF8F0,#FFF0E0)}
 .top-h{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 12px 8px;flex-shrink:0}
 .top-tt{font-size:1.2rem;font-weight:700;color:#78350f}
 .top-bk{padding:4px 16px;border-radius:8px;border:1px solid rgba(217,119,6,.15);background:#fff;cursor:pointer;font-size:.8rem;display:flex;align-items:center;justify-content:center;gap:4px;box-shadow:0 1px 4px rgba(0,0,0,.06);color:#78350f;font-weight:600}
 .top-bk:active{background:#fef3c7}
-.top-body{flex:1;overflow-y:auto;padding:0 10px 8px;-webkit-overflow-scrolling:touch}
+.top-body{overflow-y:auto;padding:0 10px 8px;-webkit-overflow-scrolling:touch}
 .top-body::-webkit-scrollbar{width:3px}
 .top-body::-webkit-scrollbar-thumb{background:rgba(217,119,6,.3);border-radius:2px}
 .top-nt{text-align:center;padding:8px;font-size:.68rem;color:#a8a29e;line-height:1.4;flex-shrink:0}
@@ -69,11 +69,11 @@ body{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align
 <body>
 <div class="wrap">
   <div class="sp hid" id="gameUI">
-    <div class="sb"><div><div class="sl">Очки</div><div class="sv" id="sc">0</div></div></div>
-    <button class="rbtn2" id="btnMute" title="Звук">🔊</button>
-    <button class="rbtn2" id="btnMenu" title="В меню">📋</button>
     <button class="rbtn2" id="rbtn2" title="Начать заново">🔄</button>
+    <div class="sb"><div><div class="sl">Очки</div><div class="sv" id="sc">0</div></div></div>
     <div class="sb r"><div><div class="sl">Рекорд</div><div class="sv" id="bs">0</div></div><span class="si">🏆</span></div>
+    <button class="rbtn2" id="btnMenuGame" title="В меню">←</button>
+    <button class="rbtn2" id="btnMute" title="Звук">🔊</button>
   </div>
   <div class="cc" id="cc">
     <canvas id="cv"></canvas>
@@ -96,15 +96,13 @@ body{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align
 <div class="menu" id="menu">
   <div class="menu-c">
     <div class="menu-t">Coin Merge</div>
-    <div class="menu-s">Сливай одинаковые монеты!</div>
     <button class="mbtn mbtn-p" id="btnPlay">▶  Начать игру</button>
-    <button class="mbtn mbtn-s" id="btnTop50">🏆  ТОП-50</button>
-    <button class="mbtn mbtn-s" id="btnTopWeek">📅  ТОП недели</button>
+    <button class="mbtn mbtn-s" id="btnTop50">🏆  ТОП-10</button>
+    <button class="mbtn mbtn-s" id="btnTopWeek">📅  ТОП НЕДЕЛЯ</button>
     <div class="menu-b" id="menuBsWrap" style="cursor:pointer">🏆 Рекорд: <span id="menuBs">0</span></div>
   </div>
-</div>
 
-<!-- Reset Record Dialog -->
+<!-- Record reset confirm -->
 <div class="hid" id="resetDlg" style="position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;z-index:100">
   <div style="background:#fff;border-radius:16px;padding:24px 20px 18px;width:260px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.2)">
     <div style="font-size:1rem;font-weight:700;margin-bottom:6px">Обнулить рекорд?</div>
@@ -115,16 +113,17 @@ body{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align
     </div>
   </div>
 </div>
+</div>
 
-<!-- Top-50 Screen -->
+<!-- Top-10 Screen -->
 <div class="top hid" id="top50">
   <div class="top-c">
     <div class="top-h">
-      <div class="top-tt" id="topTitle">🏆 ТОП-50</div>
+      <div class="top-tt" id="topTitle">🏆 ТОП-10</div>
       <button class="top-bk" id="btnBack">← Назад</button>
     </div>
     <div class="top-body" id="topList"></div>
-    <div class="top-nt" id="topNote">Результаты загружаются...</div>
+    <div class="top-nt" id="topNote">⚡ Рейтинг будет доступен после подключения сервера</div>
   </div>
 </div>
 </body>
@@ -160,23 +159,6 @@ var CN=[
   {id:10,r:Math.round(80*(GW/350)*SC),l:'10',c:'#DA70D6',lt:'#FFB0FF',dk:'#8B008B'}
 ];
 
-/* ====== MUSIC ====== */
-var musicEl=new Audio('music.mp3');
-musicEl.loop=true;musicEl.volume=0.4;
-var musicMuted=localStorage.getItem('suika-muted')==='1';
-if(musicMuted)musicEl.muted=true;
-function toggleMute(){
-  musicMuted=!musicMuted;
-  musicEl.muted=musicMuted;
-  localStorage.setItem('suika-muted',musicMuted?'1':'0');
-  if(btnMuteE)btnMuteE.textContent=musicMuted?'🔇':'🔊';
-}
-function tryStartMusic(){
-  if(musicMuted)return;
-  var p=musicEl.play();
-  if(p&&p.catch)p.catch(function(){});
-}
-
 /* ====== COIN IMAGE PRELOAD ====== */
 var coinImgs=[];
 var coinImgsLoaded=false;
@@ -193,14 +175,11 @@ function preloadCoins(){
 }
 preloadCoins();
 
-/* ====== CANVAS SETUP WITH DPR ====== */
 var cv=document.getElementById('cv'),cx=cv.getContext('2d');
 var DPR=Math.min(window.devicePixelRatio||1,3);
 cv.width=GW*DPR;cv.height=GH*DPR;
 cv.style.width=GW+'px';cv.style.height=GH+'px';
 cx.scale(DPR,DPR);
-
-/* ====== ELEMENT REFERENCES ====== */
 var scE=document.getElementById('sc'),bsE=document.getElementById('bs');
 var goE=document.getElementById('go'),fsE=document.getElementById('fs'),nrE=document.getElementById('nrec');
 var rbE=document.getElementById('rbtn'),rb2E=document.getElementById('rbtn2');
@@ -212,14 +191,27 @@ var gameUIE=document.getElementById('gameUI'),gameHintE=document.getElementById(
 var btnPlayE=document.getElementById('btnPlay'),btnTop50E=document.getElementById('btnTop50');
 var btnTopWeekE=document.getElementById('btnTopWeek');
 var btnBackE=document.getElementById('btnBack'),btnMenuGOE=document.getElementById('btnMenuGO');
+var btnMenuGameE=document.getElementById('btnMenuGame');
 var btnMuteE=document.getElementById('btnMute');
-var btnMenuGameE=document.getElementById('btnMenu');
-var menuBsWrapE=document.getElementById('menuBsWrap');
-var resetDlgE=document.getElementById('resetDlg');
-var resetNoE=document.getElementById('resetNo');
-var resetYesE=document.getElementById('resetYes');
+if(window.Telegram&&Telegram.WebApp){Telegram.WebApp.ready();Telegram.WebApp.expand();}
 
-if(btnMuteE)btnMuteE.textContent=musicMuted?'🔇':'🔊';
+/* ====== MUSIC ====== */
+var bgMusic=new Audio('music.mp3');
+bgMusic.loop=true;bgMusic.volume=0.7;
+var musicMuted=localStorage.getItem('suika-muted')==='1';
+var musicStarted=false;
+function toggleMute(){
+  musicMuted=!musicMuted;
+  localStorage.setItem('suika-muted',musicMuted?'1':'0');
+  if(musicMuted){bgMusic.pause();}else if(musicStarted){bgMusic.play();}
+  btnMuteE.textContent=musicMuted?'🔇':'🔊';
+}
+function tryStartMusic(){
+  if(musicStarted){if(!musicMuted) bgMusic.play();return;}
+  musicStarted=true;
+  if(!musicMuted) bgMusic.play();
+}
+if(musicMuted) btnMuteE.textContent='🔇';
 
 /* ====== SUPABASE ====== */
 var SUPA_URL='https://jquhsdecfplohxqltnmh.supabase.co/rest/v1';
@@ -231,9 +223,11 @@ function getPlayerName(){
     if(window.Telegram&&Telegram.WebApp){
       var tg=Telegram.WebApp;
       var u=null;
+      /* Prefer initDataUnsafe (most reliable source) */
       if(tg.initDataUnsafe&&tg.initDataUnsafe.user) u=tg.initDataUnsafe.user;
       else if(tg.user) u=tg.user;
       if(u){
+        /* username → first_name → id-based fallback → Игрок */
         playerName=u.username||u.first_name||(u.id?'id'+u.id:null)||'Игрок';
         return playerName;
       }
@@ -271,28 +265,6 @@ function fetchTopScores(mode,cb){
   }).catch(function(e){cb({error:true,list:[],msg:'Error: '+e.message});});
 }
 
-/* ====== WEEK KEY ====== */
-function getWeekKey(){
-  var now=new Date();
-  var ms=now.getTime()+(3*60*60*1000);
-  var utc=new Date(ms);
-  var day=utc.getUTCDay();
-  var diff=utc.getUTCDate()-day+(day===0?-6:1);
-  var monday=new Date(Date.UTC(utc.getUTCFullYear(),utc.getUTCMonth(),diff));
-  var y=monday.getUTCFullYear();
-  var m=('0'+(monday.getUTCMonth()+1)).slice(-2);
-  var d=('0'+monday.getUTCDate()).slice(-2);
-  return y+'-'+m+'-'+d;
-}
-function getWeekBest(wk){
-  var v=localStorage.getItem('suika-week-'+wk);
-  return v?parseInt(v,10):0;
-}
-function saveWeekBest(wk,score){
-  var old=getWeekBest(wk);
-  if(score>old)localStorage.setItem('suika-week-'+wk,''+score);
-}
-
 var eng,coins,cur,sc,bs,go,cd,lst,dt,run,lmt,cb2;
 var me,sp,pm,lt2,ac;var FDT=1000/60,aid=null;
 var floorTouch={};
@@ -300,7 +272,28 @@ var unlocked={};
 var firstDrop=true;
 bs=parseInt(localStorage.getItem('suika-best')||'0');bsE.textContent=bs;
 
+/* ====== WEEK KEY (Moscow time, UTC+3) ====== */
+function getWeekKey(){
+  var now=new Date();
+  var utc=now.getTime()+now.getTimezoneOffset()*60000;
+  var msk=new Date(utc+3*3600000);
+  var day=msk.getDay();
+  var diff=day===0?-6:1-day;
+  var monday=new Date(msk);
+  monday.setDate(msk.getDate()+diff);
+  return monday.getFullYear()+'-'+('0'+(monday.getMonth()+1)).slice(-2)+'-'+('0'+monday.getDate()).slice(-2);
+}
+function getWeekBest(){
+  return parseInt(localStorage.getItem('suika-week-'+getWeekKey())||'0');
+}
+function saveWeekBest(score){
+  var key='suika-week-'+getWeekKey();
+  var cur2=parseInt(localStorage.getItem(key)||'0');
+  if(score>cur2) localStorage.setItem(key,''+score);
+}
+
 /* ====== MENU / SCREEN NAVIGATION ====== */
+var topMode='all';
 function showMenu(){
   menuE.classList.remove('hid');
   top50E.classList.add('hid');
@@ -315,75 +308,56 @@ function showGame(){
   gameHintE.classList.remove('hid');
 }
 function showTopAll(){
+  topMode='all';
   menuE.classList.add('hid');
   top50E.classList.remove('hid');
-  topTitleE.textContent='🏆 ТОП-50';
-  topListE.innerHTML='';
-  topNoteE.textContent='Загрузка...';
-  fetchTopScores('all',function(res){
-    genTop(res,'all');
-  });
+  genTop();
 }
 function showTopWeek(){
+  topMode='week';
   menuE.classList.add('hid');
   top50E.classList.remove('hid');
-  topTitleE.textContent='📅 ТОП недели';
-  topListE.innerHTML='';
-  topNoteE.textContent='Загрузка...';
-  fetchTopScores('week',function(res){
-    genTop(res,'week');
-  });
+  genTop();
 }
 function hideTop50(){
   top50E.classList.add('hid');
   menuE.classList.remove('hid');
 }
 
-function genTop(res,mode){
-  if(res.error){
-    topListE.innerHTML='<div style="text-align:center;padding:30px 10px;color:#a8a29e;font-size:.8rem">'+res.msg+'</div>';
-    topNoteE.textContent='Не удалось загрузить данные';
-    return;
-  }
-  var list=res.list;
-  var pName=getPlayerName();
-  var inList=false;
-  for(var i=0;i<list.length;i++){
-    if(list[i].name===pName){inList=true;break;}
-  }
-  if(!inList&&bs>0){
-    list.push({name:pName,score:bs,isPlayer:true});
-  }
-  list.sort(function(a,b){return b.score-a.score;});
-  /* Dedup by name */
-  var seen={};
-  var deduped=[];
-  for(var i=0;i<list.length;i++){
-    if(!seen[list[i].name]){
-      seen[list[i].name]=true;
-      deduped.push(list[i]);
+/* Generate leaderboard from Supabase */
+function genTop(){
+  var isWeek=(topMode==='week');
+  topTitleE.textContent=isWeek?'📅 ТОП НЕДЕЛЯ':'🏆 ТОП-10';
+  topNoteE.textContent=isWeek?'⚡ Сброс каждый понедельник 00:00 МСК':'';
+  topListE.innerHTML='<div style="text-align:center;padding:20px;color:#a8a29e;font-size:.75rem">Загрузка...</div>';
+  fetchTopScores(isWeek?'week':'all',function(res){
+    if(res.error){
+      topListE.innerHTML='<div style="text-align:center;padding:20px;color:#dc2626;font-size:.75rem">Ошибка: '+(res.msg||'?')+'</div>';
+      return;
     }
-  }
-  list=deduped;
-  var top10=list.slice(0,10);
-  var trophies=['🥇','🥈','🥉'];
-  var h='';
-  for(var i=0;i<top10.length;i++){
-    var item=top10[i];
-    var tr=i<3?trophies[i]:'';
-    var tl=tr?'<div class="top-tr">'+tr+'</div>':'';
-    var hl=item.isPlayer?'background:rgba(217,119,6,.12);border-color:rgba(217,119,6,.2);':'';
-    var nameStyle=item.isPlayer?'color:#d97706;':'';
-    h+='<div class="top-rw" style="'+hl+'">'+
-      tl+
-      '<div class="top-rk">'+(i+1)+'</div>'+
-      '<div class="top-rn" style="'+nameStyle+'">'+item.name+'</div>'+
-      '<div class="top-rs">'+item.score+'</div>'+
-      (tr?tl:'')+
-      '</div>';
-  }
-  topListE.innerHTML=h;
-  topNoteE.textContent=mode==='week'?'Рейтинг за текущую неделю':'Лучшие результаты за всё время';
+    var list=res.list;
+    var trophies=['🥇','🥈','🥉'];
+    /* Insert player if not in list */
+    var pName=getPlayerName();
+    var found=false;
+    for(var i=0;i<list.length;i++){if(list[i].name===pName){found=true;break;}}
+    if(!found){
+      var pScore=isWeek?getWeekBest():bs;
+      if(pScore>0) list.push({name:pName,score:pScore,isPlayer:true});
+    }
+    list.sort(function(a,b){return b.score-a.score;});
+    if(list.length>10) list=list.slice(0,10);
+    var h='';
+    for(var i=0;i<list.length;i++){
+      var entry=list[i];
+      var tr=i<3?trophies[i]:'';
+      var tl=tr?'<div class="top-tr">'+tr+'</div>':'';
+      var nameClass=entry.isPlayer?' style="color:#d97706;font-weight:700"':'';
+      h+='<div class="top-rw">'+tl+'<div class="top-rk">'+(i+1)+'</div><div class="top-rn"'+nameClass+'>'+entry.name+'</div><div class="top-rs">'+entry.score+'</div>'+tl+'</div>';
+    }
+    if(list.length===0) h='<div style="text-align:center;padding:20px;color:#a8a29e;font-size:.75rem">Пока нет результатов. Играй!</div>';
+    topListE.innerHTML=h;
+  });
 }
 
 /* ====== PHYSICS SETUP ====== */
@@ -413,7 +387,7 @@ function mkW(){
 
 /*
   PHYSICS TUNING:
-  collisionStart fires BEFORE resolver -> correct restitution on first frame.
+  collisionStart fires BEFORE resolver → correct restitution on first frame.
   collisionActive keeps values enforced on subsequent frames.
 */
 
@@ -560,10 +534,11 @@ function pmrg(ca,cb3){
   Matter.Composite.remove(eng.world,ca.body);
   Matter.Composite.remove(eng.world,cb3.body);
   coins=coins.filter(function(c){return c!==ca&&c!==cb3;});
-  if(nid>10){
-    var pts=ca.cid*2,cm2=cb2>0?1+cb2*.5:1;pts=Math.floor(pts*cm2);
-    sc+=pts;if(sc>bs){bs=sc;localStorage.setItem('suika-best',''+bs);}upU();
-    sp.push({x:mx,y:my-30,t:'+'+pts,al:1,vy:-1.2,sc2:cm2>1?1.3:1,c:cm2>1?'#FDE047':'#22C55E'});
+    if(nid>10){
+    var pts=ca.cid*2;sc+=pts;
+    if(sc>bs){bs=sc;localStorage.setItem('suika-best',''+bs);}
+    saveWeekBest(sc);upU();
+    sp.push({x:mx,y:my-30,t:'+'+pts,al:1,vy:-1.2,sc2:1});
     return;
   }
   var cc=CN[nid-1];
@@ -575,7 +550,7 @@ function pmrg(ca,cb3){
   Matter.Composite.add(eng.world,nb);
   coins.push({body:nb,cid:nid,ct:Date.now()});
   unlocked[nid]=true;
-
+  
   var now=Date.now();
   if(now-lmt<600)cb2++;else cb2=0;
   lmt=now;
@@ -583,10 +558,10 @@ function pmrg(ca,cb3){
   pts=Math.floor(pts*cm);
   me.push({x:mx,y:my,rad:cc.r*.5,mr:cc.r*2.2,al:.7,ct:now,c:cc.c,lt:cc.lt});
   var ct2=cb2>0?' x'+(cb2+1):'';
-  var spColor=cb2>0?'#FDE047':'#22C55E';
-  sp.push({x:mx,y:my-cc.r,t:'+'+pts+ct2,al:1,vy:-1.2,sc2:cb2>0?1.3:1,c:spColor});
+  sp.push({x:mx,y:my-cc.r,t:'+'+pts+ct2,al:1,vy:-1.2,sc2:cb2>0?1.3:1});
   sc+=pts;
   if(sc>bs){bs=sc;localStorage.setItem('suika-best',''+bs);}
+  saveWeekBest(sc);
   upU();
 }
 
@@ -620,16 +595,7 @@ function chkGO(){
 }
 
 function upU(){scE.textContent=sc;bsE.textContent=bs;}
-function showGO(){
-  fsE.textContent=sc;
-  nrE.className=sc>=bs&&sc>0?'nr':'nr hid';
-  goE.classList.remove('hid');
-  if(sc>0){
-    saveScoreToSupa(sc);
-    var wk=getWeekKey();
-    saveWeekBest(wk,sc);
-  }
-}
+function showGO(){fsE.textContent=sc;nrE.className=sc>=bs&&sc>0?'nr':'nr hid';goE.classList.remove('hid');if(sc>0)saveScoreToSupa(sc);}
 
 function upE(){
   var now=Date.now();
@@ -704,7 +670,7 @@ function drSP(){
     cx.font='bold '+(16*p.sc2)+'px system-ui,sans-serif';
     cx.textAlign='center';cx.textBaseline='middle';
     cx.strokeStyle='rgba(0,0,0,.3)';cx.lineWidth=3;cx.strokeText(p.t,p.x,p.y);
-    cx.fillStyle=p.c||'#22C55E';cx.fillText(p.t,p.x,p.y);cx.restore();
+    cx.fillStyle=p.sc2>1?'#FDE047':'#22C55E';cx.fillText(p.t,p.x,p.y);cx.restore();
   }
 }
 
@@ -748,8 +714,7 @@ function startGame(){
 }
 function backToMenu(){
   stop();
-  musicEl.pause();
-  musicEl.currentTime=0;
+  bgMusic.pause();
   if(eng)Matter.Composite.clear(eng.world,false);
   goE.classList.add('hid');
   init();
@@ -779,20 +744,22 @@ cv.addEventListener('touchend',function(e){e.preventDefault();drop();},{passive:
 /* Menu buttons */
 btnPlayE.addEventListener('click',function(){startGame();});
 btnPlayE.addEventListener('touchend',function(e){e.preventDefault();startGame();},{passive:false});
+
+/* In-game menu button */
+btnMenuGameE.addEventListener('click',function(e){e.stopPropagation();backToMenu();});
+btnMenuGameE.addEventListener('touchend',function(e){e.preventDefault();e.stopPropagation();backToMenu();},{passive:false});
+
+/* Mute button */
+btnMuteE.addEventListener('click',function(e){e.stopPropagation();toggleMute();});
+btnMuteE.addEventListener('touchend',function(e){e.preventDefault();e.stopPropagation();toggleMute();},{passive:false});
+
+/* Top buttons */
 btnTop50E.addEventListener('click',function(){showTopAll();});
 btnTop50E.addEventListener('touchend',function(e){e.preventDefault();showTopAll();},{passive:false});
 btnTopWeekE.addEventListener('click',function(){showTopWeek();});
 btnTopWeekE.addEventListener('touchend',function(e){e.preventDefault();showTopWeek();},{passive:false});
 btnBackE.addEventListener('click',function(){hideTop50();});
 btnBackE.addEventListener('touchend',function(e){e.preventDefault();hideTop50();},{passive:false});
-
-/* In-game menu button */
-btnMenuGameE.addEventListener('click',function(){backToMenu();});
-btnMenuGameE.addEventListener('touchend',function(e){e.preventDefault();backToMenu();},{passive:false});
-
-/* Mute button */
-btnMuteE.addEventListener('click',function(){toggleMute();});
-btnMuteE.addEventListener('touchend',function(e){e.preventDefault();toggleMute();},{passive:false});
 
 /* Game over buttons */
 rbE.addEventListener('click',function(e){e.stopPropagation();restart();});
@@ -803,31 +770,29 @@ btnMenuGOE.addEventListener('click',function(e){e.stopPropagation();backToMenu()
 btnMenuGOE.addEventListener('touchend',function(e){e.preventDefault();e.stopPropagation();backToMenu();},{passive:false});
 
 /* Record reset dialog */
-menuBsWrapE.addEventListener('click',function(){
-  resetDlgE.classList.remove('hid');
-});
-resetNoE.addEventListener('click',function(){
+var resetDlgE=document.getElementById('resetDlg');
+var resetYesE=document.getElementById('resetYes');
+var resetNoE=document.getElementById('resetNo');
+var menuBsWrapE=document.getElementById('menuBsWrap');
+menuBsWrapE.addEventListener('click',function(){resetDlgE.classList.remove('hid');});
+resetNoE.addEventListener('click',function(e){e.stopPropagation();resetDlgE.classList.add('hid');});
+resetYesE.addEventListener('click',function(e){
+  e.stopPropagation();
   resetDlgE.classList.add('hid');
-});
-resetYesE.addEventListener('click',function(){
   localStorage.removeItem('suika-best');
-  bs=0;bsE.textContent='0';menuBsE.textContent='0';
-  /* Clear all week bests */
-  var toRemove=[];
-  for(var i=0;i<localStorage.length;i++){
-    var k=localStorage.key(i);
-    if(k&&k.indexOf('suika-week-')===0)toRemove.push(k);
-  }
-  for(var i=0;i<toRemove.length;i++)localStorage.removeItem(toRemove[i]);
-  resetDlgE.classList.add('hid');
+  var keys=[];for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(k&&k.indexOf('suika-week-')===0) keys.push(k);}
+  for(var j=0;j<keys.length;j++) localStorage.removeItem(keys[j]);
+  bs=0;menuBsE.textContent=0;bsE.textContent=0;
 });
 
 /* Show menu on load */
 showMenu();
-
-/* ====== TELEGRAM INIT ====== */
-if(window.Telegram&&Telegram.WebApp){var tg=Telegram.WebApp;tg.ready();tg.expand();}
-
+/* Init Telegram WebApp */
+if(window.Telegram&&Telegram.WebApp){
+  var tg=Telegram.WebApp;
+  tg.ready();
+  tg.expand();
+}
 })();
 </script>
 </body>
