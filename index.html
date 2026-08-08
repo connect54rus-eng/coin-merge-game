@@ -446,7 +446,7 @@ function mkCol(){
       var ib=coins.findIndex(function(c){return c.body===b});
       if(ia===-1||ib===-1)continue;
       var ca=coins[ia],cb3=coins[ib];
-      if(ca.cid===cb3.cid&&ca.cid<10){
+      if(ca.cid===cb3.cid&&ca.cid<=10){
         var q=pm.some(function(m){return m[0]===ia||m[0]===ib||m[1]===ia||m[1]===ib});
         if(!q)pm.push([ia,ib]);
       }
@@ -534,6 +534,13 @@ function pmrg(ca,cb3){
   Matter.Composite.remove(eng.world,ca.body);
   Matter.Composite.remove(eng.world,cb3.body);
   coins=coins.filter(function(c){return c!==ca&&c!==cb3;});
+    if(nid>10){
+    var pts=ca.cid*2;sc+=pts;
+    if(sc>bs){bs=sc;localStorage.setItem('suika-best',''+bs);}
+    saveWeekBest(sc);upU();
+    sp.push({x:mx,y:my-30,t:'+'+pts,al:1,vy:-1.2,sc2:1});
+    return;
+  }
   var cc=CN[nid-1];
   var nb=Matter.Bodies.circle(mx,my,cc.r,{
     friction:0, restitution:0, frictionStatic:0, frictionAir:0.003,
