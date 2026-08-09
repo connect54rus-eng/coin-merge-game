@@ -497,7 +497,7 @@ function fixDrift(){
 /* ====== GAME LOGIC ====== */
 function rci(){
   if(firstDrop) return 1;
-  var wt=[0,18,24,24,22,10];
+  var wt=[0,30,25,20,15,10];
   var totalW=0;
   for(var id=1;id<=5;id++){
     if(id<=2 || unlocked[id]) totalW+=wt[id];
