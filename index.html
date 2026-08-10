@@ -363,7 +363,7 @@ function genTop(){
 
 /* ====== PHYSICS SETUP ====== */
 function init(){
-  eng=Matter.Engine.create({gravity:{x:0,y:1.25,scale:0.001}});
+  eng=Matter.Engine.create({gravity:{x:0,y:1.3,scale:0.001}});
   eng.positionIterations=20;
   eng.velocityIterations=20;
   coins=[];me=[];sp=[];pm=[];sc=0;go=false;cd=true;dt=0;cb2=0;lmt=0;lt2=0;ac=0;floorTouch={};unlocked={};firstDrop=true;
@@ -460,8 +460,8 @@ function fixDrift(){
   for(var i=0;i<coins.length;i++){
     var b=coins[i].body;
     var vx=b.velocity.x;
-    if(Math.abs(vx) > 2){
-      Matter.Body.setVelocity(b, {x: Math.sign(vx)*2, y: b.velocity.y});
+    if(Math.abs(vx) > 2.5){
+      Matter.Body.setVelocity(b, {x: Math.sign(vx)*2.5, y: b.velocity.y});
     } else if(Math.abs(vx) > 0.05){
       Matter.Body.setVelocity(b, {x: vx*0.95, y: b.velocity.y});
     } else {
