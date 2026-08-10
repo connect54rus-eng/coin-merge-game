@@ -460,8 +460,8 @@ function fixDrift(){
   for(var i=0;i<coins.length;i++){
     var b=coins[i].body;
     var vx=b.velocity.x;
-    if(Math.abs(vx) > 1){
-      Matter.Body.setVelocity(b, {x: Math.sign(vx)*1, y: b.velocity.y});
+    if(Math.abs(vx) > 2){
+      Matter.Body.setVelocity(b, {x: Math.sign(vx)*2, y: b.velocity.y});
     } else if(Math.abs(vx) > 0.05){
       Matter.Body.setVelocity(b, {x: vx*0.95, y: b.velocity.y});
     } else {
