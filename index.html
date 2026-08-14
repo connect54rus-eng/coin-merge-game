@@ -346,7 +346,7 @@ function genTop(){
       if(pScore>0) list.push({name:pName,score:pScore,isPlayer:true});
     }
     list.sort(function(a,b){return b.score-a.score;});
-    var maxL=isWeek?50:10;
+    var maxL=isWeek?50:11;
     if(list.length>maxL) list=list.slice(0,maxL);
     var h='';
     for(var i=0;i<list.length;i++){
