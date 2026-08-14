@@ -247,8 +247,8 @@ function saveScoreToSupa(score){
 }
 function fetchTopScores(mode,cb){
   var wk=getWeekKey();
-  var url=SUPA_URL+'/scores?select=name,score,week_key&order=score.desc&limit=50';
-  if(mode==='week') url=SUPA_URL+'/scores?select=name,score&week_key=eq.'+(wk)+'&order=score.desc&limit=50';
+  var url=SUPA_URL+'/scores?select=name,score,week_key&order=score.desc&limit=1000';
+  if(mode==='week') url=SUPA_URL+'/scores?select=name,score&week_key=eq.'+(wk)+'&order=score.desc&limit=1000';
   fetch(url,{
     headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY}
   }).then(function(r){return r.json();}).then(function(data){
@@ -346,7 +346,7 @@ function genTop(){
       if(pScore>0) list.push({name:pName,score:pScore,isPlayer:true});
     }
     list.sort(function(a,b){return b.score-a.score;});
-    var maxL=isWeek?50:11;
+    var maxL=isWeek?50:10;
     if(list.length>maxL) list=list.slice(0,maxL);
     var h='';
     for(var i=0;i<list.length;i++){
